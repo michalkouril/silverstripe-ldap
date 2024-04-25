@@ -20,8 +20,13 @@ class LDAPFakeMember extends Member implements TestOnly
      *
      * @return int|void
      */
-    public function write($showDebug = false, $forceInsert = false, $forceWrite = false, $writeComponents = false)
-    {
+    public function write(
+        $showDebug = false,
+        $forceInsert = false,
+        $forceWrite = false,
+        $writeComponents = false,
+        bool $skipValidation = false
+    ) {
         // Noop
     }
 }
