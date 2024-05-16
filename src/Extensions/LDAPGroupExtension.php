@@ -60,7 +60,7 @@ class LDAPGroupExtension extends DataExtension
      * {@inheritDoc}
      * @param FieldList $fields
      */
-    public function updateCMSFields(FieldList $fields)
+    protected function updateCMSFields(FieldList $fields)
     {
         // Add read-only LDAP metadata fields.
         $fields->addFieldToTab('Root.LDAP', ReadonlyField::create('GUID'));
@@ -115,7 +115,7 @@ class LDAPGroupExtension extends DataExtension
     /**
      * LDAPGroupMappings are inherently relying on groups and can be removed now.
      */
-    public function onBeforeDelete()
+    protected function onBeforeDelete()
     {
         foreach ($this->owner->LDAPGroupMappings() as $mapping) {
             $mapping->delete();

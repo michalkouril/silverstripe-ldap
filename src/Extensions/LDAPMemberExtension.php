@@ -117,7 +117,7 @@ class LDAPMemberExtension extends DataExtension
     /**
      * @param FieldList $fields
      */
-    public function updateCMSFields(FieldList $fields)
+    protected function updateCMSFields(FieldList $fields)
     {
         // Redo LDAP metadata fields as read-only and move to LDAP tab.
         $ldapMetadata = [];
@@ -207,7 +207,7 @@ class LDAPMemberExtension extends DataExtension
      * Create the user in LDAP, provided this configuration is enabled
      * and a username was passed to a new Member record.
      */
-    public function onBeforeWrite()
+    protected function onBeforeWrite()
     {
         if ($this->owner->LDAPMemberExtension_NoSync) {
             return;
@@ -225,7 +225,7 @@ class LDAPMemberExtension extends DataExtension
         $service->createLDAPUser($this->owner);
     }
 
-    public function onAfterWrite()
+    protected function onAfterWrite()
     {
         if ($this->owner->LDAPMemberExtension_NoSync) {
             return;
@@ -241,7 +241,7 @@ class LDAPMemberExtension extends DataExtension
         $this->sync();
     }
 
-    public function onAfterDelete()
+    protected function onAfterDelete()
     {
         if ($this->owner->LDAPMemberExtension_NoSync) {
             return;
@@ -316,7 +316,7 @@ class LDAPMemberExtension extends DataExtension
      * @param string           $newPassword
      * @param ValidationResult $validation
      */
-    public function onBeforeChangePassword($newPassword, $validation)
+    protected function onBeforeChangePassword($newPassword, $validation)
     {
         // Don't do anything if there's already a validation failure
         if (!$validation->isValid()) {
