@@ -465,7 +465,7 @@ class LDAPMemberSyncExtension extends Extension
      * Assuming the `DN` and `ManagerDN` values are set by LDAP, this code will link a member with their manager and 
      * store the link in the `Manager` has_one.
      */
-    public function onAfterLDAPMemberSyncTask()
+    protected function onAfterLDAPMemberSyncTask()
     {
         $members = Member::get()->where('"GUID" IS NOT NULL');
 
