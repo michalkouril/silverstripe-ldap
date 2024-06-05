@@ -133,7 +133,7 @@ class LDAPService implements Flushable
      */
     public static function flush()
     {
-        $cache = self::get_cache();
+        $cache = LDAPService::get_cache();
         $cache->clear();
     }
 
@@ -230,7 +230,7 @@ class LDAPService implements Flushable
      */
     public function getNodes($cached = true, $attributes = [])
     {
-        $cache = self::get_cache();
+        $cache = LDAPService::get_cache();
         $cacheKey = 'nodes' . md5(implode('', $attributes));
         $results = $cache->has($cacheKey);
 
@@ -260,7 +260,7 @@ class LDAPService implements Flushable
     public function getGroups($cached = true, $attributes = [], $indexBy = 'dn')
     {
         $searchLocations = $this->config()->groups_search_locations ?: [null];
-        $cache = self::get_cache();
+        $cache = LDAPService::get_cache();
         $cacheKey = 'groups' . md5(implode('', array_merge($searchLocations, $attributes)));
         $results = $cache->has($cacheKey);
 
@@ -297,8 +297,8 @@ class LDAPService implements Flushable
      */
     public function getNestedGroups($dn, $attributes = [])
     {
-        if (isset(self::$_cache_nested_groups[$dn])) {
-            return self::$_cache_nested_groups[$dn];
+        if (isset(LDAPService::$_cache_nested_groups[$dn])) {
+            return LDAPService::$_cache_nested_groups[$dn];
         }
 
         $searchLocations = $this->config()->groups_search_locations ?: [null];
@@ -310,7 +310,7 @@ class LDAPService implements Flushable
             }
         }
 
-        self::$_cache_nested_groups[$dn] = $results;
+        LDAPService::$_cache_nested_groups[$dn] = $results;
         return $results;
     }
 

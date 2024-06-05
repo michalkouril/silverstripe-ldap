@@ -13,7 +13,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
     {
         // thumbnail images are raw JPEG/JFIF files, but that's not important
         // for this test, as long as the binary content are the same
-        self::$data['users']['456']['thumbnailphoto'] = base64_decode(self::$data['users']['456']['thumbnailphoto'] ?? '');
+        LDAPFakeGateway::$data['users']['456']['thumbnailphoto'] = base64_decode(LDAPFakeGateway::$data['users']['456']['thumbnailphoto'] ?? '');
     }
 
     private static $data = [
@@ -111,7 +111,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
     public function getGroups($baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [], $sort = '')
     {
         if (isset($baseDn)) {
-            return !empty(self::$data['groups'][$baseDn]) ? self::$data['groups'][$baseDn] : null;
+            return !empty(LDAPFakeGateway::$data['groups'][$baseDn]) ? LDAPFakeGateway::$data['groups'][$baseDn] : null;
         }
     }
 
@@ -140,7 +140,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
 
     public function getUserByGUID($guid, $baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [])
     {
-        return [self::$data['users'][$guid]];
+        return [LDAPFakeGateway::$data['users'][$guid]];
     }
 
     public function update($dn, array $attributes)
@@ -161,7 +161,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
 
     protected function search($filter, $baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [], $sort = '')
     {
-        $records = self::$data;
+        $records = LDAPFakeGateway::$data;
         $results = [];
         foreach ($records as $record) {
             foreach ($record as $attribute => $value) {
@@ -201,7 +201,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
     public function getUserByEmail($email, $baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [])
     {
         $result = [];
-        foreach (self::$data['users'] as $guid => $info) {
+        foreach (LDAPFakeGateway::$data['users'] as $guid => $info) {
             if ($info['mail'] == $email) {
                 $result[] = $info;
                 break;
@@ -224,7 +224,7 @@ class LDAPFakeGateway extends LDAPGateway implements TestOnly
     public function getUserByUsername($username, $baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [])
     {
         $result = [];
-        foreach (self::$data['users'] as $guid => $info) {
+        foreach (LDAPFakeGateway::$data['users'] as $guid => $info) {
             if ($info['userprincipalname'] == $username) {
                 $result[] = $info;
                 break;
