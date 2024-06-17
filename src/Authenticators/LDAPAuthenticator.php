@@ -60,7 +60,7 @@ class LDAPAuthenticator extends MemberAuthenticator
      */
     public static function get_name()
     {
-        return Config::inst()->get(self::class, 'name');
+        return Config::inst()->get(LDAPAuthenticator::class, 'name');
     }
 
     /**
@@ -86,7 +86,7 @@ class LDAPAuthenticator extends MemberAuthenticator
         $service = Injector::inst()->get(LDAPService::class);
         $login = trim($data['Login'] ?? '');
         if (Email::is_valid_address($login)) {
-            if (Config::inst()->get(self::class, 'allow_email_login') != 'yes') {
+            if (Config::inst()->get(LDAPAuthenticator::class, 'allow_email_login') != 'yes') {
                 $result->addError(
                     _t(
                         __CLASS__ . '.PLEASEUSEUSERNAME',
@@ -99,7 +99,7 @@ class LDAPAuthenticator extends MemberAuthenticator
 
             // No user found with this email.
             if (!$username) {
-                if (Config::inst()->get(self::class, 'fallback_authenticator') === 'yes') {
+                if (Config::inst()->get(LDAPAuthenticator::class, 'fallback_authenticator') === 'yes') {
                     if ($fallbackMember = $this->fallbackAuthenticate($data, $request)) {
                         {
                             return $fallbackMember;
@@ -122,7 +122,7 @@ class LDAPAuthenticator extends MemberAuthenticator
              * Try the fallback method if admin or it failed for anything other than invalid credentials
              * This is to avoid having an unhandled exception error thrown by PasswordEncryptor::create_for_algorithm()
              */
-            if (Config::inst()->get(self::class, 'fallback_authenticator') === 'yes') {
+            if (Config::inst()->get(LDAPAuthenticator::class, 'fallback_authenticator') === 'yes') {
                 if (!in_array($serviceAuthenticationResult['code'], [Result::FAILURE_CREDENTIAL_INVALID])
                     || $username === 'admin'
                 ) {
@@ -176,7 +176,7 @@ class LDAPAuthenticator extends MemberAuthenticator
         if (array_key_exists('Login', $data ?? []) && !array_key_exists('Email', $data ?? [])) {
             $data['Email'] = $data['Login'];
         }
-        $authenticatorClass = Config::inst()->get(self::class, 'fallback_authenticator_class');
+        $authenticatorClass = Config::inst()->get(LDAPAuthenticator::class, 'fallback_authenticator_class');
         if ($authenticator = Injector::inst()->get($authenticatorClass)) {
             $result = call_user_func(
                 [
@@ -226,7 +226,7 @@ class LDAPAuthenticator extends MemberAuthenticator
         $service = Injector::inst()->get(LDAPService::class);
 
         // Support email or username
-        $handle = Config::inst()->get(self::class, 'allow_email_login') === 'yes' ? 'Email' : 'Username';
+        $handle = Config::inst()->get(LDAPAuthenticator::class, 'allow_email_login') === 'yes' ? 'Email' : 'Username';
 
         $ldapResult = $service->authenticate($member->{$handle}, $password);
 

@@ -94,7 +94,7 @@ class LDAPUtil
         $result = "$rev-$auth";
 
         for ($x = 0; $x < $subcount; $x++) {
-            $subauth[$x] = hexdec(self::little_endian(substr($hex_sid ?? '', 16 + ($x * 8), 8)) ?? '');
+            $subauth[$x] = hexdec(LDAPUtil::little_endian(substr($hex_sid ?? '', 16 + ($x * 8), 8)) ?? '');
             $result .= '-' . $subauth[$x];
         }
 

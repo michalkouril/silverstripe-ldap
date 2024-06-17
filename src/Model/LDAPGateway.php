@@ -86,7 +86,7 @@ class LDAPGateway
     }
 
     /**
-     * Processes results from either self::search() or self::searchAll(), expecting eitheran array of records
+     * Processes results from either LDAPGateway::search() or LDAPGateway::searchAll(), expecting eitheran array of records
      *
      * @param Iterator $records
      * @return array

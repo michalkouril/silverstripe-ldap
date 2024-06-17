@@ -60,7 +60,7 @@ class LDAPDebugController extends ContentController
      */
     public function index(HTTPRequest $request)
     {
-        return $this->renderWith([self::class]);
+        return $this->renderWith([LDAPDebugController::class]);
     }
 
     public function Options()
