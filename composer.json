@@ -22,7 +22,7 @@
     ],
     "require": {
         "php": "^7.4 || ^8.0",
-        "silverstripe/framework": "^4.10",
+        "silverstripe/framework": "^4.11",
         "silverstripe/cms": "^4.1",
         "symbiote/silverstripe-queuedjobs": "^4.1",
         "zendframework/zend-ldap": "^2.5.1",
