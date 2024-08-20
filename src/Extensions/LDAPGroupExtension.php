@@ -9,7 +9,7 @@ use SilverStripe\Forms\GridField\GridFieldConfig_RecordEditor;
 use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\LDAP\Model\LDAPGroupMapping;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\HasManyList;
 
 /**
@@ -19,9 +19,9 @@ use SilverStripe\ORM\HasManyList;
  *
  * @method HasManyList<LDAPGroupMapping> LDAPGroupMappings()
  *
- * @extends DataExtension<Group&static>
+ * @extends Extension<Group&static>
  */
-class LDAPGroupExtension extends DataExtension
+class LDAPGroupExtension extends Extension
 {
     /**
      * @var array
