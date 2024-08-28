@@ -9,7 +9,7 @@ use SilverStripe\Forms\LiteralField;
 use SilverStripe\Forms\ReadonlyField;
 use SilverStripe\Forms\TextField;
 use SilverStripe\LDAP\Services\LDAPService;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 use SilverStripe\ORM\ValidationException;
 use SilverStripe\ORM\ValidationResult;
 use SilverStripe\Security\Member;
@@ -19,9 +19,9 @@ use SilverStripe\Security\Member;
  *
  * Adds mappings from AD attributes to SilverStripe {@link Member} fields.
  *
- * @extends DataExtension<Member>
+ * @extends Extension<Member>
  */
-class LDAPMemberExtension extends DataExtension
+class LDAPMemberExtension extends Extension
 {
     /**
      * @var array

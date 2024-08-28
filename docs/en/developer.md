@@ -276,9 +276,9 @@ mentioned above. You will still need to apply that extension to `SilverStripe\Se
 
 ```php
 use SilverStripe\Assets\Image;
-use SilverStripe\ORM\DataExtension;
+use SilverStripe\Core\Extension;
 
-class MyMemberExtension extends DataExtension
+class MyMemberExtension extends Extension
 {
     private static $db = [
         // 'description' is a regular textual field and is written automatically.
