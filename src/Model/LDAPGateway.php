@@ -35,6 +35,14 @@ class LDAPGateway
     private static $options = [];
 
     /**
+     * If configured, only user objects matching this LDAP filter will be considered to this service instead of the default.
+     * @var string
+     *
+     * @config
+     */
+    private static $user_filter = [];
+
+    /**
      * @var Laminas\Ldap\Ldap
      */
     private $ldap;
@@ -62,8 +70,10 @@ class LDAPGateway
         $records = new LDAPIterator($this->getLdap(), $filter, $baseDn, $attributes, $pageSize);
         $results = $this->processSearchResults($records);
 
-        // Reset the LDAP pagination control back to the original, otherwise all further LDAP read queries fail
-        ldap_control_paged_result($this->getLdap()->getResource(), 1000);
+        if (version_compare(PHP_VERSION, '8.0.0') < 0) {
+          // Reset the LDAP pagination control back to the original, otherwise all further LDAP read queries fail
+          ldap_control_paged_result($this->getLdap()->getResource(), 1000);
+        }
 
         return $results;
     }
@@ -254,7 +264,7 @@ class LDAPGateway
      */
     public function getUsers($baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [], $sort = '')
     {
-        $filter = '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
+        $filter = $this->config()->user_filter ?: '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
 
         $this->extend('updateUsersFilter', $filter);
 
@@ -277,7 +287,7 @@ class LDAPGateway
      */
     public function getUsersWithIterator($baseDn = null, $attributes = [])
     {
-        $filter = '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
+        $filter = $this->config()->user_filter ?: '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
 
         $this->extend('updateUsersWithIteratorFilter', $filter);
 

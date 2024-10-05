@@ -69,6 +69,14 @@ class LDAPService implements Flushable
     private static $groups_search_locations = [];
 
     /**
+     * If configured, only group objects within these locations will be searched for nexted groups to this service.
+     * @var array
+     *
+     * @config
+     */
+    private static $nested_groups_search_locations = [];
+
+    /**
      * Location to create new users in (distinguished name).
      * @var string
      *
@@ -301,7 +309,7 @@ class LDAPService implements Flushable
             return LDAPService::$_cache_nested_groups[$dn];
         }
 
-        $searchLocations = $this->config()->groups_search_locations ?: [null];
+        $searchLocations = $this->config()->nested_groups_search_locations ?: $this->config()->groups_search_locations ?: [null];
         $results = [];
         foreach ($searchLocations as $searchLocation) {
             $records = $this->getGateway()->getNestedGroups($dn, $searchLocation, Ldap::SEARCH_SCOPE_SUB, $attributes);
