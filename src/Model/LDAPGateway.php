@@ -35,14 +35,6 @@ class LDAPGateway
     private static $options = [];
 
     /**
-     * If configured, only user objects matching this LDAP filter will be considered to this service instead of the default.
-     * @var string
-     *
-     * @config
-     */
-    private static $user_filter = [];
-
-    /**
      * @var Laminas\Ldap\Ldap
      */
     private $ldap;
@@ -264,7 +256,7 @@ class LDAPGateway
      */
     public function getUsers($baseDn = null, $scope = Ldap::SEARCH_SCOPE_SUB, $attributes = [], $sort = '')
     {
-        $filter = $this->config()->user_filter ?: '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
+        $filter = '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
 
         $this->extend('updateUsersFilter', $filter);
 
@@ -287,7 +279,7 @@ class LDAPGateway
      */
     public function getUsersWithIterator($baseDn = null, $attributes = [])
     {
-        $filter = $this->config()->user_filter ?: '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
+        $filter = '(&(objectClass=user)(!(objectClass=computer))(!(samaccountname=Guest))(!(samaccountname=Administrator))(!(samaccountname=krbtgt)))';
 
         $this->extend('updateUsersWithIteratorFilter', $filter);
 
